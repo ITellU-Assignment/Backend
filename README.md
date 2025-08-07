@@ -23,27 +23,19 @@ Configure database
 In prisma/schema.prisma, the DB is SQLite with:
 
 env
-Copy
-Edit
 DATABASE_URL="file:./dev.db"
 Apply migrations & generate client
 
-bash
-Copy
-Edit
+
 npx prisma migrate dev --name init
 npx prisma generate
 (Optional) Seed sample data
 
-bash
-Copy
-Edit
+
 npx prisma db seed
 Start development server
 
-bash
-Copy
-Edit
+
 npm run start:dev
 The API listens on http://localhost:5000 by default.
 
