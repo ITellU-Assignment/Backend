@@ -1,17 +1,18 @@
+````markdown
 # iTellU Backend (NestJS + Prisma + SQLite)
 
 ## Overview
 This service provides a REST API for managing teachers, students, and lesson invites.
 
 **Business Rules Enforced:**
-- Only one future accepted invite per student.
-- Auto-reject other invites at the same time when one is accepted.
-- Prevent duplicate invites (same teacher, student, and scheduled time).
+- Only one future accepted invite per student  
+- Auto-reject other invites at the same time when one is accepted  
+- Prevent duplicate invites (same teacher, student, and scheduled time)
 
 ## Tech Stack
-- NestJS (TypeScript)
-- Prisma ORM with SQLite
-- `log.txt` for audit logging
+- NestJS (TypeScript)  
+- Prisma ORM with SQLite  
+- `log.txt` for audit logging  
 
 ## Setup & Run
 
@@ -19,46 +20,59 @@ This service provides a REST API for managing teachers, students, and lesson inv
    ```bash
    cd backend
    npm install
-Configure database
-In prisma/schema.prisma, the DB is SQLite with:
+````
 
-env
-DATABASE_URL="file:./dev.db"
-Apply migrations & generate client
+2. **Configure database**
+   In `prisma/schema.prisma`, ensure:
 
+   ```env
+   DATABASE_URL="file:./dev.db"
+   ```
 
-npx prisma migrate dev --name init
-npx prisma generate
-(Optional) Seed sample data
+3. **Apply migrations & generate client**
 
+   ```bash
+   npx prisma migrate dev --name init
+   npx prisma generate
+   ```
 
-npx prisma db seed
-Start development server
+4. **(Optional) Seed sample data**
 
+   ```bash
+   npx prisma db seed
+   ```
 
-npm run start:dev
-The API listens on http://localhost:5000 by default.
+5. **Start development server**
 
-API Endpoints
-POST /teachers – Create a new teacher
+   ```bash
+   npm run start:dev
+   ```
 
-GET /teachers – List all teachers
+   The API listens on **[http://localhost:5000](http://localhost:5000)** by default.
 
-POST /students – Create a new student
+## API Endpoints
 
-GET /students – List all students
+* **POST** `/teachers`
+  Create a new teacher
+* **GET** `/teachers`
+  List all teachers
+* **POST** `/students`
+  Create a new student
+* **GET** `/students`
+  List all students
+* **POST** `/invites`
+  Send a lesson invite
+* **PATCH** `/invites/:id`
+  Accept or reject an invite
+* **GET** `/invites`
+  List all invites (optional `?status=pending|accepted|rejected`)
 
-POST /invites – Send a lesson invite
+## Assumptions
 
-PATCH /invites/:id – Accept or reject an invite
+* No backend authentication (handled by frontend)
+* Times are sent and compared as UTC ISO strings
+* Logging uses `fs.appendFileSync` into `log.txt`
+* Uses SQLite for development; switch to MySQL/PostgreSQL by updating `DATABASE_URL` and rerunning migrations
 
-GET /invites – List all invites (optional ?status=pending|accepted|rejected)
-
-Assumptions
-No backend authentication (handled by frontend).
-
-Times are sent and compared as UTC ISO strings.
-
-Logging uses simple fs.appendFileSync into log.txt.
-
-SQLite is used for development; you can switch to MySQL/PostgreSQL by updating DATABASE_URL and re-running migrations
+```
+```
